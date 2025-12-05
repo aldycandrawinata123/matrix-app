@@ -9,10 +9,12 @@ from utils import (
     get_blur_kernel,
     get_sharpen_kernel,
     hsv_background_removal,
+    add_background_video,  # penting untuk background video
 )
 
 st.set_page_config(page_title="Tools - Matrix Vision Lab", page_icon="🛠️", layout="wide")
 load_css()
+add_background_video("bg.mp4")  # panggil video background
 
 st.markdown("## 🛠️ Image Processing Tools")
 
@@ -76,7 +78,7 @@ elif tool == "Rotation":
     angle = st.sidebar.slider("Angle (degrees)", -180, 180, 30)
     h, w = rgb.shape[:2]
     cx, cy = w / 2, h / 2
-    # Build rotation matrix around image center in homogeneous form
+
     theta = np.deg2rad(angle)
     cos_t, sin_t = np.cos(theta), np.sin(theta)
 
@@ -111,6 +113,7 @@ elif tool == "Reflection":
     st.sidebar.markdown("### Reflection Parameters")
     axis = st.sidebar.selectbox("Reflection axis", ["Vertical (y-axis)", "Horizontal (x-axis)", "Both"])
     h, w = rgb.shape[:2]
+
     if axis == "Vertical (y-axis)":
         M = np.array([[-1, 0, w],
                       [0, 1, 0]], dtype=np.float32)
@@ -153,7 +156,11 @@ elif tool == "Background Removal (Optional)":
     s_min, s_max = st.sidebar.slider("Saturation range", 0, 255, (40, 255))
     v_min, v_max = st.sidebar.slider("Value range", 0, 255, (40, 255))
 
-    processed = hsv_background_removal(rgb, (h_min, s_min, v_min), (h_max, s_max, v_max))
+    processed = hsv_background_removal(
+        rgb,
+        (h_min, s_min, v_min),
+        (h_max, s_max, v_max),
+    )
 
 with col2:
     st.markdown("#### Transformed / Processed")

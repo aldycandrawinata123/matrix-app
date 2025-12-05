@@ -1,6 +1,7 @@
 import streamlit as st
 import numpy as np
 import cv2
+import base64
 
 
 def load_css():
@@ -10,8 +11,8 @@ def load_css():
         --accent: #38bdf8;
         --accent-soft: rgba(56,189,248,0.15);
         --accent-strong: #0ea5e9;
-        --card-bg: rgba(15,23,42,0.86);
-        --card-border: rgba(148,163,184,0.35);
+        --card-bg: rgba(15,23,42,0.30);
+        --card-border: rgba(148,163,184,0.45);
         --text-main: #e5e7eb;
         --text-soft: #9ca3af;
         --danger: #f97373;
@@ -26,26 +27,30 @@ def load_css():
     }
 
     .main {
-    background: transparent !important;
-}
+        background: transparent !important;
+    }
 
-.stApp {
-    background: transparent !important;
-    color: var(--text-main);
-}
+    .stApp {
+        background: transparent !important;
+        color: var(--text-main);
+    }
 
-
-    .hero-card {
+    /* Card kaca iOS */
+    .hero-card,
+    .card {
         padding: 2rem 2.4rem;
-        border-radius: 1.5rem;
-        background: linear-gradient(135deg, rgba(15,23,42,0.95), rgba(15,23,42,0.75));
-        border: 1px solid var(--card-border);
-        box-shadow: 0 18px 55px rgba(15,23,42,0.9);
-        backdrop-filter: blur(28px);
+        border-radius: 1.7rem;
+        background: radial-gradient(circle at 0% 0%, rgba(255,255,255,0.16), rgba(15,23,42,0.7));
+        border: 1px solid rgba(148,163,184,0.5);
+        box-shadow:
+            0 0 0 1px rgba(15,23,42,0.65),
+            0 26px 60px rgba(15,23,42,0.95);
+        backdrop-filter: blur(26px);
+        -webkit-backdrop-filter: blur(26px);
     }
 
     .hero-card.secondary {
-        background: linear-gradient(135deg, rgba(15,23,42,0.9), rgba(8,47,73,0.8));
+        background: radial-gradient(circle at 0% 0%, rgba(191,219,254,0.22), rgba(15,23,42,0.9));
     }
 
     .hero-title {
@@ -65,30 +70,34 @@ def load_css():
         margin-bottom: 1.1rem;
     }
 
+    /* Badge sangat transparan + blur tipis */
     .hero-badges .badge {
-    display: inline-flex;
-    align-items: center;
-    padding: 0.2rem 0.7rem;
-    border-radius: 999px;
-    border: 1px solid rgba(56,189,248,0.9);
-    font-size: 0.72rem;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: #e0f2fe;
-    margin-right: 0.35rem;
-    margin-bottom: 0.35rem;
-    background: radial-gradient(circle at top left, rgba(56,189,248,0.18), rgba(15,23,42,0.95));
-}
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.28rem 0.95rem;
+        border-radius: 999px;
+        border: 1px solid rgba(226, 232, 240, 0.8);
+        font-size: 0.78rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: #f9fafb;
+        margin-right: 0.45rem;
+        margin-bottom: 0.45rem;
+        background: radial-gradient(circle at 30% 0%, rgba(255,255,255,0.04), rgba(15,23,42,0.10));
+        box-shadow:
+            0 4px 14px rgba(15,23,42,0.45),
+            inset 0 0 6px rgba(15,23,42,0.4);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+    }
 
-
-    .card {
-        padding: 1.4rem 1.6rem;
-        border-radius: 1.2rem;
-        background: var(--card-bg);
-        border: 1px solid var(--card-border);
-        box-shadow: 0 14px 35px rgba(15,23,42,0.9);
-        backdrop-filter: blur(22px);
-        margin-bottom: 1rem;
+    .hero-badges .badge:hover {
+        background: radial-gradient(circle at 20% 0%, rgba(191,219,254,0.30), rgba(15,23,42,0.35));
+        border-color: rgba(226,232,240,0.95);
+        box-shadow:
+            0 0 0 1px rgba(59,130,246,0.85),
+            0 14px 32px rgba(15,23,42,0.95);
     }
 
     .team-card {
@@ -114,6 +123,11 @@ def load_css():
         border-right: 1px solid rgba(31,41,55,1);
     }
 
+    .stFileUploader label {
+        color: #ffffff !important;
+        font-weight: 600;
+    }
+
     .stSlider > div > div > div[role="slider"] {
         box-shadow: 0 0 0 2px rgba(56,189,248,0.9);
         background: var(--accent);
@@ -128,47 +142,79 @@ def load_css():
         color: #e5e7eb;
     }
 
+    /* Kartu matrix (st.code) kaca transparan */
     .matrix-code {
         font-size: 0.8rem !important;
-        color: var(--text-soft);
+        color: var(--text-soft) !important;
     }
 
-    /* Expander: gelap, teks putih */
-    /* Ubah style file uploader dan expander jadi biru gelap */
-.stFileUploader, .st-expander {
-    background-color: #020617 !important;      /* biru sangat gelap */
-    border-radius: 0.9rem !important;
-    border: 1px solid #0f172a !important;      /* border biru gelap */
-}
+    .stCode, .stCode > div, .stCode pre {
+        background: radial-gradient(circle at 0% 0%, rgba(255,255,255,0.14), rgba(15,23,42,0.35)) !important;
+        border-radius: 1.2rem !important;
+        border: 1px solid rgba(148,163,184,0.55) !important;
+        box-shadow:
+            0 0 0 1px rgba(15,23,42,0.65),
+            0 18px 40px rgba(15,23,42,0.9) !important;
+        backdrop-filter: blur(18px) !important;
+        -webkit-backdrop-filter: blur(18px) !important;
+        color: #e5e7eb !important;
+    }
 
-/* Header expander */
-.st-expanderHeader {
-    background-color: #020617 !important;
-    color: #f9fafb !important;
-    font-weight: 700 !important;
-    border-radius: 0.9rem !important;
-    border: 1px solid #0f172a !important;
-}
+    /* Expander = bubble kaca */
+    .st-expander {
+        background: rgba(15, 23, 42, 0.24) !important;
+        border-radius: 999px !important;
+        border: 1px solid rgba(148, 163, 184, 0.4) !important;
+        backdrop-filter: blur(18px) !important;
+        -webkit-backdrop-filter: blur(18px) !important;
+        padding: 0.15rem 0.6rem !important;
+    }
 
-/* Teks di header expander tetap putih */
-.st-expanderHeader * {
-    color: #f9fafb !important;
-}
+    .st-expanderHeader {
+        background: transparent !important;
+        color: #e5e7eb !important;
+        font-weight: 600 !important;
+        border-radius: 999px !important;
+        border: none !important;
+    }
 
+    .st-expanderHeader * {
+        color: #e5e7eb !important;
+    }
 
     .st-expanderHeader:focus,
     .st-expanderHeader:hover {
         outline: none !important;
-        box-shadow: none !important;
+        box-shadow: 0 0 0 1px rgba(148, 163, 184, 0.7) !important;
+        background: rgba(15, 23, 42, 0.5) !important;
     }
-        /* Bikin label di atas uploader (Upload an image) jadi putih */
-    .stFileUploader label {
-        color: #ffffff !important;
-        font-weight: 600;
-    }
-
     """
     st.markdown(f"<style>{css}</style>", unsafe_allow_html=True)
+
+
+def add_background_video(video_file: str):
+    with open(video_file, "rb") as f:
+        video_bytes = f.read()
+    encoded = base64.b64encode(video_bytes).decode()
+
+    video_html = f"""
+    <style>
+    #bg-video {{
+      position: fixed;
+      right: 0;
+      bottom: 0;
+      min-width: 100%;
+      min-height: 100%;
+      z-index: -1;
+      object-fit: cover;
+    }}
+    </style>
+
+    <video autoplay muted loop id="bg-video">
+      <source src="data:video/mp4;base64,{encoded}" type="video/mp4">
+    </video>
+    """
+    st.markdown(video_html, unsafe_allow_html=True)
 
 
 def show_example_matrices():
@@ -224,10 +270,6 @@ def to_gray_if_needed(rgb):
 
 
 def manual_convolution_2d(img, kernel):
-    """
-    Manual 2D convolution for a single-channel image (grayscale).
-    Uses zero padding and 'same' output size.
-    """
     if img.ndim != 2:
         raise ValueError("manual_convolution_2d expects a 2D (grayscale) image.")
 
@@ -272,10 +314,6 @@ def get_sharpen_kernel(strength=1.0):
 
 
 def hsv_background_removal(rgb_img, lower_hsv, upper_hsv):
-    """
-    Simple background removal using HSV in-range masking.
-    Keeps pixels within the specified HSV range and makes others black.
-    """
     bgr = cv2.cvtColor(rgb_img, cv2.COLOR_RGB2BGR)
     hsv = cv2.cvtColor(bgr, cv2.COLOR_BGR2HSV)
 

@@ -1,8 +1,9 @@
 import streamlit as st
-from utils import load_css
+from utils import load_css, add_background_video
 
 st.set_page_config(page_title="Team - Matrix Vision Lab", page_icon="👥", layout="wide")
 load_css()
+add_background_video("bg.mp4")  # panggil background video di page ini juga
 
 st.markdown("## 👥 Team Members")
 
@@ -13,7 +14,7 @@ members = [
         "name": "Nama Anggota 1",
         "role": "Project Lead & Backend",
         "bio": "Responsible for overall architecture, matrix operations, and convolution logic.",
-        "image": None,  # ganti dengan URL atau path lokal jika pakai static hosting
+        "image": None,
     },
     {
         "name": "Nama Anggota 2",

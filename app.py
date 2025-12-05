@@ -1,6 +1,10 @@
 import streamlit as st
-import base64
-from utils import load_css, show_example_matrices, show_convolution_illustration
+from utils import (
+    load_css,
+    show_example_matrices,
+    show_convolution_illustration,
+    add_background_video,
+)
 
 st.set_page_config(
     page_title="Matrix Vision Lab",
@@ -9,36 +13,13 @@ st.set_page_config(
 )
 
 load_css()
-def add_background_video(video_file):
-    video_bytes = open(video_file, "rb").read()
-    encoded = base64.b64encode(video_bytes).decode()
-    video_html = f"""
-    <style>
-    #bg-video {{
-      position: fixed;
-      right: 0;
-      bottom: 0;
-      min-width: 100%;
-      min-height: 100%;
-      z-index: -1;
-      object-fit: cover;
-    }}
-    </style>
-
-    <video autoplay muted loop id="bg-video">
-      <source src="data:video/mp4;base64,{encoded}" type="video/mp4">
-      Your browser does not support HTML5 video.
-    </video>
-    """
-    st.markdown(video_html, unsafe_allow_html=True)
-
-# panggil di awal halaman
 add_background_video("bg.mp4")
 
 
 def main():
     with st.container():
         left, right = st.columns([1.2, 1])
+
         with left:
             st.markdown(
                 """
@@ -54,7 +35,7 @@ def main():
                         <span class="badge">Rotation</span>
                         <span class="badge">Shearing</span>
                         <span class="badge">Reflection</span>
-                        <span class="badge badge-accent">Blur & Sharpen</span>
+                        <span class="badge">Blur & Sharpen</span>
                     </div>
                 </div>
                 """,
@@ -80,19 +61,20 @@ def main():
                 unsafe_allow_html=True,
             )
 
-    st.markdown("### 🔢 Matrix Transformations in 2D Graphics")
+    st.markdown("### Matrix Transformations in 2D Graphics")
     st.write(
         "Geometric transformations can be represented as matrix multiplications in homogeneous coordinates, allowing multiple transformations to be composed efficiently."
     )
     show_example_matrices()
 
-    st.markdown("### 🧮 Convolution for Image Filtering")
+    st.markdown("### Convolution for Image Filtering")
     st.write(
         "Convolution applies a small kernel matrix across an image to compute a weighted sum of neighborhood pixels, enabling blur, sharpen, edge detection, and more."
     )
     show_convolution_illustration()
 
-    with st.expander("📚 How to use this app"):
+    # TANPA EMOJI, HANYA TEKS BIASA
+    with st.expander("How to use this app"):
         st.markdown(
             """
             - Go to **Image Processing Tools** page to upload an image and apply transformations or filters.  
@@ -101,6 +83,7 @@ def main():
             - Visit **Team Members** page for project info and group details.
             """
         )
+
 
 if __name__ == "__main__":
     main()
