@@ -65,12 +65,12 @@ def load_css():
 
     .hero-subtitle {
         font-size: 0.98rem;
-        color: var(--text-soft);
+        color: #ffffff !important;
         max-width: 34rem;
         margin-bottom: 1.1rem;
     }
 
-    /* Badge sangat transparan + blur tipis */
+    /* Badge hero */
     .hero-badges .badge {
         display: inline-flex;
         align-items: center;
@@ -100,22 +100,100 @@ def load_css():
             0 14px 32px rgba(15,23,42,0.95);
     }
 
-    .team-card {
-        text-align: center;
+    /* Team section wrapper */
+    .team-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.6rem;
+        margin-top: 1.5rem;
+        width: 100%;
     }
 
-    .avatar-placeholder {
-        width: 120px;
-        height: 120px;
-        border-radius: 999px;
-        background: radial-gradient(circle at 30% 0%, #38bdf8, #0f172a);
+    /* Shell buat posisi avatar */
+    .avatar-shell {
         display: flex;
         align-items: center;
         justify-content: center;
-        margin: 0 auto 0.8rem auto;
-        font-size: 2.4rem;
-        border: 1px solid rgba(148,163,184,0.6);
+        margin-bottom: -1.6rem;
+        z-index: 2;
+        width: 100%;
+    }
+
+    /* Container stImage untuk memastikan terpusat */
+    .avatar-shell .stImage {
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        width: 100% !important;
+        margin: 0 auto !important;
+    }
+
+    /* st.image avatar -> bulat, ukuran fix */
+    .stImage img {
+        width: 130px !important;
+        height: 130px !important;
+        border-radius: 50% !important;
+        object-fit: cover !important;
+        object-position: center center !important;
         box-shadow: 0 18px 40px rgba(15,23,42,0.85);
+        border: 1px solid rgba(148,163,184,0.6);
+        margin: 0 auto !important;
+        display: block !important;
+    }
+
+    .team-card {
+        position: relative;
+        top: 0.4rem;
+        width: 100%;
+        max-width: 360px;
+        padding: 1.1rem 1.4rem;
+        border-radius: 1.4rem;
+        background: radial-gradient(circle at 0% 0%, rgba(255,255,255,0.12), rgba(15,23,42,0.80));
+        border: 1px solid rgba(148,163,184,0.55);
+        box-shadow:
+            0 0 0 1px rgba(15,23,42,0.70),
+            0 18px 36px rgba(15,23,42,0.95);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+        text-align: left;
+    }
+
+    .team-name {
+        margin: 0 0 0.2rem 0;
+        font-size: 1.05rem;
+        font-weight: 700;
+        letter-spacing: 0.03em;
+        color: #f9fafb;
+    }
+
+    .team-sid {
+        margin: 0;
+        font-size: 0.86rem;
+        color: #a5b4fc;
+        font-weight: 600;
+    }
+
+    .team-univ {
+        margin: 0 0 0.3rem 0;
+        font-size: 0.86rem;
+        color: #e5e7eb;
+    }
+
+    .team-role {
+        margin: 0 0 0.4rem 0;
+        font-size: 0.9rem;
+        color: #e5e7eb;
+    }
+
+    .team-role span {
+        font-weight: 700;
+    }
+
+    .team-bio {
+        margin: 0;
+        font-size: 0.86rem;
+        color: #d1d5db;
     }
 
     .stSidebar {
@@ -142,7 +220,6 @@ def load_css():
         color: #e5e7eb;
     }
 
-    /* Kartu matrix (st.code) kaca transparan */
     .matrix-code {
         font-size: 0.8rem !important;
         color: var(--text-soft) !important;
@@ -160,7 +237,7 @@ def load_css():
         color: #e5e7eb !important;
     }
 
-    /* Expander = bubble kaca */
+    /* Expander kaca */
     .st-expander {
         background: rgba(15, 23, 42, 0.24) !important;
         border-radius: 999px !important;
@@ -187,6 +264,104 @@ def load_css():
         outline: none !important;
         box-shadow: 0 0 0 1px rgba(148, 163, 184, 0.7) !important;
         background: rgba(15, 23, 42, 0.5) !important;
+    }
+
+    /* Label Section */
+    .section-switch {
+        margin-top: 1.5rem;
+        margin-bottom: 0.4rem;
+    }
+
+    .section-switch .switch-label {
+        font-size: 0.8rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--text-soft);
+    }
+
+    /* Tombol umum */
+    .stButton > button {
+        border-radius: 999px;
+        padding: 0.35rem 0.9rem;
+        border: 1px solid rgba(148,163,184,0.6);
+        background: radial-gradient(circle at 30% 0%, rgba(255,255,255,0.10), rgba(15,23,42,0.40));
+        color: #e5e7eb;
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        box-shadow:
+            0 4px 14px rgba(15,23,42,0.55),
+            inset 0 0 8px rgba(15,23,42,0.6);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+    }
+
+    .stButton > button:hover {
+        border-color: rgba(191,219,254,0.9);
+        background: radial-gradient(circle at 20% 0%, rgba(191,219,254,0.45), rgba(15,23,42,0.55));
+        box-shadow:
+            0 0 0 1px rgba(59,130,246,0.85),
+            0 16px 32px rgba(15,23,42,0.95);
+    }
+
+    /* Toggle App / Tools */
+    .toggle-wrapper {
+        margin-top: 0.2rem;
+    }
+
+    .toggle-pill {
+        position: relative;
+        width: 230px;
+        height: 34px;
+        border-radius: 999px;
+        border: 1px solid rgba(148,163,184,0.7);
+        background: radial-gradient(circle at 0% 0%, rgba(255,255,255,0.12), rgba(15,23,42,0.8));
+        box-shadow:
+            0 0 0 1px rgba(15,23,42,0.8),
+            0 16px 32px rgba(15,23,42,0.9);
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 6px;
+        box-sizing: border-box;
+    }
+
+    .toggle-thumb {
+        position: absolute;
+        top: 3px;
+        width: 50%;
+        height: 28px;
+        border-radius: 999px;
+        background: radial-gradient(circle at 30% 0%, rgba(251,113,133,0.95), rgba(59,130,246,0.85));
+        box-shadow:
+            0 0 0 1px rgba(15,23,42,0.9),
+            0 14px 30px rgba(15,23,42,0.95);
+        transition: left 0.25s ease;
+        z-index: 1;
+    }
+
+    .toggle-label {
+        position: relative;
+        z-index: 2;
+        flex: 1;
+        text-align: center;
+        font-size: 0.78rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #e5e7eb;
+        user-select: none;
+    }
+
+    .toggle-left {
+        text-align: left;
+        padding-left: 6px;
+    }
+
+    .toggle-right {
+        text-align: right;
+        padding-right: 6px;
     }
     """
     st.markdown(f"<style>{css}</style>", unsafe_allow_html=True)
